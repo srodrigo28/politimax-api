@@ -3,6 +3,13 @@ https://console.aiven.io/account/a4790e1df8f6/project/edson-b38a/services/mysql-
 
 ### Dados da conexão
 
+### Dependências
+* mysql2
+npm i mysql2
+
+* sequelize
+npm i sequelize -D
+
 ### Conexão Exemplo
 const fs = require('fs');
 const mysql = require('mysql2');

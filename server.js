@@ -1,32 +1,62 @@
-const fs = require('fs');
-const mysql = require('mysql2');
+const express = require('express');
+const db = require('./config/db');
 
-var conn = mysql.createConnection({
-    host: 'mysql-1521c885-edson-b38a.a.aivencloud.com',
-    port: '20301',
-    user: 'avnadmin',
-    password: 'AVNS_ONlmKkM0xkmdiaL9Sx4',
-    database: 'defaultdb',
-    ssl: {
-        ca: fs.readFileSync(__dirname + '/certs/ca.pem')
-    }
+const Usuario = require('./models/User')
+
+const app = express();
+
+app.use(express.json());
+
+app.get("/", (req, res) => {
+    return res.json({
+        erro: false,
+        nome: 'Api 2023',
+        empresa: 'Seb Soluções',
+    })
 });
 
-conn.connect();
-
-// conn.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-//     if (error) throw error;
-//     console.log('The solution is: ', results[0].solution);
-// });
-
-
-conn.query('select * from gestores', function (error, results, fields){
-    if(error) throw error;
-    console.log('Sucesso: ', results[1])
+app.post("/users", async (req, res) => {
+    await Usuario.create(req.body)
+    .then(() => {
+        return res.json({
+            erro: false,
+            mensagem: "Sucesso :)"
+        });
+    })
+    .catch( (error) => {
+        return res.json({
+            erro: true,
+            errorType: error,
+            mensagem: "Error :("
+        });
+    })
 });
 
-conn.end();
+app.get("/users", async (req, res) => {
 
-const cert = fs.readFileSync(__dirname + '/certs/ca.pem')
+    await Usuario.findAll()
+    .then((users) => {
+        return res.json({
+            erro: false,
+            users
+        });
+    }).catch((error) => {
+        return res.json({
+            erro: false,
+            errorType: error,
+            mensagem: "error :("
+        });
+    });
+})
 
-console.log('servidor rodando');
+app.post("/gestores", (req, res) => {
+    return res.json({
+        erro: false,
+        nome: 'Api 2023',
+        empresa: 'Seb Soluções',
+    })
+});
+
+app.listen(8080, () => {
+    console.log('Servidor porta: 8080')
+});
