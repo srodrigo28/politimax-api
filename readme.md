@@ -7,6 +7,9 @@ https://console.aiven.io/account/a4790e1df8f6/project/edson-b38a/services/mysql-
 * mysql2
 npm i mysql2
 
+npm install dotenv --save
+npm install nodemon --save
+
 * sequelize
 npm i sequelize -D
 
