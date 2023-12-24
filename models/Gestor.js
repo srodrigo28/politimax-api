@@ -7,6 +7,6 @@ const Gestor = db.define('gestores', {
     email: { type: Sequelize.STRING, allowNull: false }
 });
 
-User.sync();
+Gestor.sync();
 
 module.exports = Gestor;
