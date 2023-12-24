@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('./config/db');
 
 const Usuario = require('./models/User')
-const Usuario = require('./models/Gestor')
+const Gestor = require('./models/Gestor')
 
 const app = express();
 
