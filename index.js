@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('./config/db');
 
 const Usuario = require('./models/User')
+const Usuario = require('./models/Gestor')
 
 const app = express();
 
@@ -49,11 +50,36 @@ app.get("/users", async (req, res) => {
     });
 })
 
-app.post("/gestores", (req, res) => {
-    return res.json({
-        erro: false,
-        nome: 'Api 2023',
-        empresa: 'Seb Soluções',
+app.get("/gestores", async (req, res) => {
+    await Gestor.findAll()
+    .then((gestores) => {
+        return res.json({
+            erro: false,
+            gestores
+        });
+    }).catch((error) => {
+        return res.json({
+            erro: false,
+            errorType: error,
+            mensagem: "error :("
+        });
+    });
+})
+
+app.post("/gestores", async (req, res) => {
+    await Gestor.create(req.body)
+    .then(() => {
+        return res.json({
+            erro: false,
+            mensagem: "Sucesso :)"
+        });
+    })
+    .catch( (error) => {
+        return res.json({
+            erro: true,
+            errorType: error,
+            mensagem: "Error :("
+        });
     })
 });
 
